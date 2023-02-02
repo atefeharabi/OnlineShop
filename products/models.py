@@ -36,3 +36,34 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Discount(models.Model):
+    DISCOUNT_TYPE = [('PE', 'Percent'), ('CA', 'Cache'), ('CO', 'Coupon')]
+    discount_type = models.CharField(choices=DISCOUNT_TYPE, max_length=2)
+    percent = models.IntegerField()
+    amount = models.FloatField()
+    max_amount = models.FloatField()
+    coupon = models.CharField(max_length=10, unique=True)
+
+    # @property
+    # def percent(self):
+    #     if self.discount_type == 'PE':
+    #         return self.percent
+    #     else:
+    #         return 0
+    #
+    # @property
+    # def amount(self):
+    #     if self.discount_type == 'CA':
+    #         return self.amount
+    #     else:
+    #         return 0
+    def __str__(self):
+        if self.discount_type == 'PE':
+            res = f"{self.percent} percent-under {self.max_amount}."
+        elif self.discount_type == 'CA':
+            res = f"{self.amount} cashe discount."
+        else:
+            res = f"coupon: {self.coupon}"
+        return res
