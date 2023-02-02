@@ -22,3 +22,17 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=250, db_index=True)
+    slug = models.SlugField(max_length=50, unique=True)
+    category_id = models.ForeignKey('Category', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
+    def __str__(self):
+        return self.name
