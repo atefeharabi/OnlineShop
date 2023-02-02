@@ -14,7 +14,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     expired = models.DateField(null=True, blank=True)
-    discount = models.ForeignKey('Discount', on_delete=models.CASCADE)
+    discount = models.ForeignKey('Discount', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         ordering = ('name',)
