@@ -14,6 +14,6 @@ class CityAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name', )}
 
 
-admin.site.register(Country)
-admin.site.register(State)
-admin.site.register(City)
+admin.site.register(Country, CountryAdmin)
+admin.site.register(State, StateAdmin)
+admin.site.register(City, CityAdmin)
