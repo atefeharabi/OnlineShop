@@ -34,3 +34,14 @@ class Customer(AbstractBaseUser):
         return self.is_admin
 
 
+class Address(models.Model):
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    state = models.ForeignKey(State, on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    district = models.CharField(max_length=255)
+    address = models.TextField()
+    postal_code = models.CharField(max_length=10)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.country}, {self.state}, {self.city}, {self.district}, {self.address}"
