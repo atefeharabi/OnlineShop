@@ -67,3 +67,12 @@ class Discount(models.Model):
         else:
             res = f"coupon: {self.coupon}"
         return res
+
+
+class Feature(models.Model):
+    name = models.CharField(max_length=250)
+    description = models.CharField(max_length=250)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name}: {self.description}"
