@@ -15,6 +15,11 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
 
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    number_of_order = models.IntegerField()
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
 
 
 
