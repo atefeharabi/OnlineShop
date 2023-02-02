@@ -41,9 +41,9 @@ class Category(models.Model):
 class Discount(models.Model):
     DISCOUNT_TYPE = [('PE', 'Percent'), ('CA', 'Cache'), ('CO', 'Coupon')]
     discount_type = models.CharField(choices=DISCOUNT_TYPE, max_length=2)
-    percent = models.IntegerField()
-    amount = models.FloatField()
-    max_amount = models.FloatField()
+    percent = models.IntegerField(null=True, blank=True)
+    amount = models.FloatField(null=True, blank=True)
+    max_amount = models.FloatField(null=True, blank=True)
     coupon = models.CharField(max_length=10, unique=True)
 
     # @property
