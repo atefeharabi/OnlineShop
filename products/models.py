@@ -27,7 +27,7 @@ class Product(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=250, db_index=True)
     slug = models.SlugField(max_length=50, unique=True)
-    category_id = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category_id = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         ordering = ('name',)
