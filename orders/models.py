@@ -1,6 +1,6 @@
 from django.db import models
 from products.models import Product
-from customers.models import Customer
+from accounts.models import User
 
 
 class Order(models.Model):
@@ -12,7 +12,7 @@ class Order(models.Model):
     order_status = models.CharField(choices=ORDER_STATUS, max_length=1)
     use_discount = models.BooleanField()
     total_amount = models.FloatField()
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class OrderItem(models.Model):
