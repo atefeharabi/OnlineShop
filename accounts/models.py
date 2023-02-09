@@ -15,7 +15,7 @@ class User(AbstractBaseUser):
     phone = models.CharField(max_length=11)
     date_of_birth = models.DateField(null=True, blank=True)
     created = models.DateField(auto_now_add=True)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
     # define a manager for User model
@@ -30,11 +30,11 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    # def has_perm(self, perm, obj=None):
-    #     return True
-    #
-    # def has_module_perms(self, app_label):
-    #     return True
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True
 
     @property
     def is_staff(self):

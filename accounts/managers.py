@@ -19,7 +19,7 @@ class UserManager(BaseUserManager):
             raise ValueError('email field required')
         if not password:
             raise ValueError('email field required')
-        user = self.model(email=self.normalize_email(email), phone=phone)
+        user = self.model(email=email, phone=phone)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -38,7 +38,7 @@ class UserManager(BaseUserManager):
             raise ValueError('email field required')
         if not password:
             raise ValueError('email field required')
-        user = self.model(email=self.normalize_email(email), phone=phone)
+        user = self.model(email=email, phone=phone)
         user.set_password(password)
         user.is_admin = True
         user.save(using=self._db)
