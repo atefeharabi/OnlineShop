@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Country, State, City, OptCode
+from .models import Country, State, City, OtpCode
 
 
 class CountryAdmin(admin.ModelAdmin):
@@ -19,6 +19,6 @@ admin.site.register(State, StateAdmin)
 admin.site.register(City, CityAdmin)
 
 
-@admin.register(OptCode)
+@admin.register(OtpCode)
 class OtpCodeAdmin(admin.ModelAdmin):
     list_display = ('phone', 'code', 'created')

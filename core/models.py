@@ -25,7 +25,7 @@ class City(models.Model):
         return f"{self.name}"
 
 
-class OptCode(models.Model):
+class OtpCode(models.Model):
     phone = models.CharField(max_length=11)
     code = models.PositiveSmallIntegerField()
     created = models.DateTimeField(auto_now=True)
