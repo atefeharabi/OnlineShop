@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import RegistrationForm, VerifyCodeForm
+from .forms import RegistrationForm, VerifyCodeForm, UserLoginForm
 from .models import User
 import random
 from core.utils import send_otp_code
 from core.models import OtpCode
+from django.contrib.auth import authenticate, login, logout
 
 
 class Register(View):
@@ -29,7 +30,8 @@ class Register(View):
             }
             messages.success(request, 'We sent you a code', 'success')
             return redirect('accounts:verify_code')
-        return redirect('products:home')
+
+        return render(request, self.template_name, {'form': form})
 
 
 class VerifyCode(View):
@@ -43,14 +45,12 @@ class VerifyCode(View):
     def post(self, request):
         user_session = request.session['user_registration_info']
         code_instance = OtpCode.objects.get(phone=user_session['phone'])
-        print('********************************')
-        # print(OtpCode.objects.get(phone=user_session['phone']))
-        print(code_instance)
         form = self.form_class(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             print(cd['code'])
             if cd['code'] == code_instance.code:
+                # todo: expiration code check
                 User.objects.create_user(user_session['email'], user_session['phone'], user_session['password'])
                 code_instance.delete()
                 messages.success(request, 'Registration done successfully', 'success')
@@ -59,4 +59,33 @@ class VerifyCode(View):
                 messages.error(request, 'Verification code is incorrect', 'danger')
                 return redirect('accounts:verify_code')
 
+        return redirect('products:home')
+
+
+class Login(View):
+    form_class = UserLoginForm
+    template_name = 'accounts/login.html'
+
+    def get(self, request):
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request, email=cd['email'], password=cd['password'])
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Logged in successfully', 'success')
+                return redirect('products:home')
+            else:
+                messages.error(request, 'Username or Password is wrong', 'danger')
+                return render(request, self.template_name, {'form': form})
+
+
+class Logout(View):
+    def get(self, request):
+        logout(request)
+        messages.success(request, 'logged out successfully', 'success')
         return redirect('products:home')
