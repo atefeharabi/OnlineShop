@@ -39,4 +39,8 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField()
     phone = forms.CharField(max_length=11)
     password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
+    # confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+
+class RegistrationVerifyCodeForm(forms.Form):
+    code = forms.IntegerField()
