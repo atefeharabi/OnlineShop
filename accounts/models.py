@@ -1,10 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
-from .managers import CustomerManager
+from .managers import UserManager
 from core.models import Country, State, City
 
 
-class Customer(AbstractBaseUser):
+class User(AbstractBaseUser):
+    """
+        create User model for supporting customer users and admin users.
+    """
     first_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     # slug = models.SlugField(max_length=255, unique=True)
@@ -12,22 +15,26 @@ class Customer(AbstractBaseUser):
     phone = models.CharField(max_length=11)
     date_of_birth = models.DateField(null=True, blank=True)
     created = models.DateField(auto_now_add=True)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    objects = CustomerManager()
+    # define a manager for User model
+    objects = UserManager()
 
+    # set email field as default authentication filed
     USERNAME_FIELD = 'email'
+
+    # set required fields for createsuperuser statement
     REQUIRED_FIELDS = ['phone']
 
     def __str__(self):
         return self.email
 
-    # def has_perm(self, perm, obj=None):
-    #     return True
-    #
-    # def has_module_perms(self, app_label):
-    #     return True
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True
 
     @property
     def is_staff(self):
@@ -41,7 +48,7 @@ class Address(models.Model):
     district = models.CharField(max_length=255)
     address = models.TextField()
     postal_code = models.CharField(max_length=10)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.country}, {self.state}, {self.city}, {self.district}, {self.address}"

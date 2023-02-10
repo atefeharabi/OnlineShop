@@ -45,6 +45,7 @@ class Discount(models.Model):
     amount = models.FloatField(null=True, blank=True)
     max_amount = models.FloatField(null=True, blank=True)
     coupon = models.CharField(max_length=10, unique=True)
+    # coupon_used = models.BooleanField(default=False)
 
     # @property
     # def percent(self):
@@ -63,7 +64,7 @@ class Discount(models.Model):
         if self.discount_type == 'PE':
             res = f"{self.percent} percent-under {self.max_amount}."
         elif self.discount_type == 'CA':
-            res = f"{self.amount} cashe discount."
+            res = f"{self.amount} cache discount."
         else:
             res = f"coupon: {self.coupon}"
         return res
