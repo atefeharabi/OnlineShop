@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import RegistrationForm
+from .forms import RegistrationForm, VerifyCodeForm
+from .models import User
 import random
 from core.utils import send_otp_code
-from core.models import OptCode
+from core.models import OtpCode
 
 
 class Register(View):
@@ -18,9 +19,9 @@ class Register(View):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            random_code = random.randint(10000, 99999)
+            random_code = random.randint(1000, 9999)
             send_otp_code(form.cleaned_data['phone'], random_code)
-            OptCode.objects.create(phone=form.cleaned_data['phone'], code=random_code)
+            OtpCode.objects.create(phone=form.cleaned_data['phone'], code=random_code)
             request.session['user_registration_info'] = {
                 'email': form.cleaned_data['email'],
                 'phone': form.cleaned_data['phone'],
@@ -32,8 +33,30 @@ class Register(View):
 
 
 class VerifyCode(View):
+    form_class = VerifyCodeForm
+    template_name = 'accounts/verify.html'
+
     def get(self, request):
-        pass
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        pass
+        user_session = request.session['user_registration_info']
+        code_instance = OtpCode.objects.get(phone=user_session['phone'])
+        print('********************************')
+        # print(OtpCode.objects.get(phone=user_session['phone']))
+        print(code_instance)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            print(cd['code'])
+            if cd['code'] == code_instance.code:
+                User.objects.create_user(user_session['email'], user_session['phone'], user_session['password'])
+                code_instance.delete()
+                messages.success(request, 'Registration done successfully', 'success')
+                return redirect('products:home')
+            else:
+                messages.error(request, 'Verification code is incorrect', 'danger')
+                return redirect('accounts:verify_code')
+
+        return redirect('products:home')

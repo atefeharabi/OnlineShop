@@ -40,7 +40,13 @@ class RegistrationForm(forms.Form):
     phone = forms.CharField(max_length=11)
     password = forms.CharField(widget=forms.PasswordInput)
     # confirm_password = forms.CharField(widget=forms.PasswordInput)
+    #
+    # def clean_confirm_password(self):
+    #     cd = self.cleaned_data
+    #     if cd['confirm_password'] and cd['password'] and cd['confirm_password'] != cd['password']:
+    #         raise ValidationError('Passwords is not match')
+    #     return cd['password']
 
 
-class RegistrationVerifyCodeForm(forms.Form):
+class VerifyCodeForm(forms.Form):
     code = forms.IntegerField()
