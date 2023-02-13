@@ -53,11 +53,14 @@ class VerifyCode(View):
             cd = form.cleaned_data
             print(cd['code'])
             if cd['code'] == code_instance.code:
-                # todo: expiration code check
-                User.objects.create_user(user_session['email'], user_session['phone'], user_session['password'])
-                code_instance.delete()
-                messages.success(request, 'Registration done successfully', 'success')
-                return redirect('products:home')
+                if code_instance.is_expired:
+                    messages.error(request, 'code was expired.', 'danger')
+                    return redirect('accounts:register')
+                else:
+                    User.objects.create_user(user_session['email'], user_session['phone'], user_session['password'])
+                    code_instance.delete()
+                    messages.success(request, 'Registration done successfully', 'success')
+                    return redirect('products:home')
             else:
                 messages.error(request, 'Verification code is incorrect', 'danger')
                 return redirect('accounts:verify_code')

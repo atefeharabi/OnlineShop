@@ -1,3 +1,5 @@
+from datetime import timedelta, datetime
+
 from django.db import models
 
 
@@ -30,5 +32,15 @@ class OtpCode(models.Model):
     code = models.PositiveSmallIntegerField()
     created = models.DateTimeField(auto_now=True)
 
+    @property
+    def expired(self):
+        return  datetime.now() + timedelta(minutes=2)
+
     def __str__(self):
         return f"{self.phone} - {self.code} - {self.created}"
+
+    def is_expired(self):
+        if self.created < self.expired:
+            return True
+        else:
+            return False
