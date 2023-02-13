@@ -1,5 +1,5 @@
 from datetime import timedelta, datetime
-
+import pytz
 from django.db import models
 
 
@@ -34,7 +34,7 @@ class OtpCode(models.Model):
 
     @property
     def expired(self):
-        return  datetime.now() + timedelta(minutes=2)
+        return  datetime.now(tz=pytz.timezone('Asia/Tehran')) + timedelta(minutes=2)
 
     def __str__(self):
         return f"{self.phone} - {self.code} - {self.created}"
