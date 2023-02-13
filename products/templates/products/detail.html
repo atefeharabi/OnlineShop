@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Product Detail {% endblock title %}
+{% block extra_headers %}
+    <link rel="stylesheet" href="{% static 'products/css/style.css' %}">
+{% endblock extra_headers %}
+{% block content %}
+    <ul class="nav justify-content-center">
+      <li class="nav-item"><h2>Category: {{ product.category | title }}{{ product.name | title }}</h2></li>
+    </ul>
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column">
+            <img class="d-flex" style="width: 500px; height: 500px;" src="{{ product.image.url }}" alt="{{ product.name }}">
+        </div>
+        <div class="d-flex flex-column">
+            {% if features %}
+                <h4>Features: </h4>
+                {% for feature in features %}
+                    <p>{{ feature.name }}: {{ feature.description }}</p>
+                {% endfor %}
+            {% endif %}
+            <h4>Description:</h4>
+            <p>{{ product.description }}</p>
+            <p><small class="font-24"l>Stock:</small> <small class="font-style">{{ product.stock }}</small></p>
+            {% if product.discount %}
+                <p>
+                    <small class="font-24">Price:</small>
+                    <small class="deco font-style">{{ product.price }} $ </small>
+                    <small class="font-style">{{ product.final_price }}</small>
+                </p>
+            {% else %}
+                <p>
+                    <small class="font-24">Price:</small>
+                    <small class="font-style">{{ product.price }} $</small>
+                </p>
+            {% endif %}
+            <p class="card-text">{{ product.rate }} Ratings - {{ product.vote }} Reviews</p>
+            <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar"
+                     style="width: {{ product.rating_percentage }}%"
+                     aria-valuemin="0.0" aria-valuemax="5.0">
+                </div>
+            </div><br><br>
+            <div><a href="" class="btn btn-danger center">Add to Cart</a></div>
+        </div>
+    </div>
+{% endblock content %}
