@@ -4,18 +4,42 @@
             <a class="nav-link active" aria-current="page" href="{% url 'products:home' %}">Home</a>
 
             {% if request.user.is_authenticated %}
-                <a class="nav-link" href="">
-                    {% if request.user.first_name %}
-                        {{ request.user.first_name }}
-                    {% else %}
+                 <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Profile
-                    {% endif %}
-                </a>
-                <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item active" href="">
+                            {% if request.user.first_name %}
+                                {{ request.user.first_name }}
+                            {% else %}
+                                {{ request.user.email }}
+                            {% endif %}
+                                </a>
+                            </li>
+                            <li><a class="nav-link dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
+                        </a>
+                    </ul>
+                 </div>
+
             {% else %}
                 <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
                 <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
             {% endif %}
+            <div class="dropdown">
+                <a class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item active" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                </ul>
+            </div>
+
+
         </div>
     </div>
 </nav>
