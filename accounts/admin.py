@@ -36,5 +36,5 @@ class AddressAdmin(admin.ModelAdmin):
 
 admin.site.unregister(Group)
 admin.site.register(User, UserAdmin)
-admin.site.register(Address)
+admin.site.register(Address, AddressAdmin)
 
