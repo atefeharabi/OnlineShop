@@ -18,7 +18,21 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'category', 'manufacturer')
 
 
+class DiscountAdmin(admin.ModelAdmin):
+    list_display = ('discount_type', 'percent', 'amount', 'max_amount', 'coupon', 'coupon_used')
+    ordering = ('discount_type',)
+    list_filter = ('percent', 'amount', 'coupon')
+    search_fields = ('percent', 'amount', 'coupon')
+
+
+class FeatureAdmin(admin.ModelAdmin):
+    list_display = ('product', 'name', 'description')
+    ordering = ('product', 'name')
+    list_filter = ('product',)
+    search_fields = ('product',)
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Discount)
-admin.site.register(Feature)
+admin.site.register(Discount, DiscountAdmin)
+admin.site.register(Feature, FeatureAdmin)
