@@ -41,7 +41,13 @@
                      aria-valuemin="0.0" aria-valuemax="5.0">
                 </div>
             </div><br><br>
-            <div><a href="" class="btn btn-danger center">Add to Cart</a></div>
+            <div>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" class="btn btn-danger center" value="Add to cart">
+                </form>
+            </div>
         </div>
     </div>
 {% endblock content %}
