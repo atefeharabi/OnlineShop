@@ -55,6 +55,7 @@ class Category(models.Model):
     slug = models.SlugField(max_length=50, unique=True)
     image = models.ImageField(upload_to='categories/%y/%m/%d', default='products/static/products/images/Blank.jpg')
     sub_category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
+    is_sub = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('name',)

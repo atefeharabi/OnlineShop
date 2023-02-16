@@ -45,7 +45,7 @@
             <div class="card" style="width: 10rem;height: 15rem;">
                 <img class="card-img-top image" src="{{ category.image.url }}" alt="{{ category.name }}">
                     <div class="card-body">
-                        <a class="a" href=""><h5 class="card-title">{{ category.name | title }}</h5></a>
+                        <a class="a" href="{{ category.get_absolute_url }}"><h5 class="card-title">{{ category.name | title }}</h5></a>
                     </div>
             </div>
         {% endfor %}

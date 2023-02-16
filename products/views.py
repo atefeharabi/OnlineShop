@@ -6,9 +6,14 @@ from .models import Product, Category, Feature
 class Home(View):
     template_name = 'products/home.html'
 
-    def get(self, request):
+    def get(self, request, slug=None):
         products = Product.objects.filter(available=True)
-        categories = Category.objects.all()
+        categories = Category.objects.filter(is_sub=False)
+        if slug:
+            category = Category.objects.get(slug=slug)
+            products = products.filter(category=category)
+            categories = Category.objects.filter(sub_category=category)
+        render(request, 'inc/navbar.html', {'categories': categories})
         return render(request, self.template_name, {'products': products, 'categories': categories})
 
 
