@@ -27,6 +27,13 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'country', 'state', 'city', 'district', 'postal_code')
+    ordering = ('country', 'state', 'city', 'district')
+    list_filter = ('country', 'state', 'city')
+    search_fields = ('customer',)
+
+
 admin.site.unregister(Group)
 admin.site.register(User, UserAdmin)
 admin.site.register(Address)
