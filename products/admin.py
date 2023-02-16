@@ -12,7 +12,10 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('manufacturer', 'name')}
-
+    list_display = ('slug', 'category', 'price', 'stock', 'available', 'created', 'rate', 'vote')
+    ordering = ('slug', 'category', 'price')
+    list_filter = ('available', 'discount')
+    search_fields = ('name', 'category', 'manufacturer')
 
 
 admin.site.register(Product, ProductAdmin)
