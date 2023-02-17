@@ -18,7 +18,7 @@ class Cart(View):
 class CartAdd(View):
     def post(self, request, product_id):
         cart_session = CartSession(request)
-        print(cart_session)
+        # print(cart_session)
         product = get_object_or_404(Product, id=product_id)
         form = CartAddForm(request.POST)
         # if form.cleaned_data['quantity'] > product.stock:
@@ -26,4 +26,4 @@ class CartAdd(View):
         #     return redirect('products:product-detail')
         if form.is_valid():
             cart_session.add(product, form.cleaned_data['quantity'])
-        return redirect('orders:cart')
+        return redirect('products:product-detail', slug=product.slug)
