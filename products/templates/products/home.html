@@ -12,29 +12,52 @@
       <li class="nav-item"><h2>Products</h2></li>
     </ul>
     <div class="d-flex justify-content-start">
-    {% for product in products %}
-        <div class="card" style="width: 20rem;height: 30rem;">
-            <img class="card-img-top image" src="{{ product.image.url }}" alt="{{ product.name }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name | title }}</h5>
-                    <p class="card-text">{{ product.rate }} Ratings - {{ product.vote }} Reviews</p>
-                    <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar"
-                             style="width: {{ product.rating_percentage }}%"
-                             aria-valuemin="0.0" aria-valuemax="5.0">
+        {% for product in sub_products %}
+            <div class="card" style="width: 20rem;height: 30rem;">
+                <img class="card-img-top image" src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name | title }}</h5>
+                        <p class="card-text">{{ product.rate }} Ratings - {{ product.vote }} Reviews</p>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar"
+                                 style="width: {{ product.rating_percentage }}%"
+                                 aria-valuemin="0.0" aria-valuemax="5.0">
+                            </div>
                         </div>
+                        {% if product.discount %}
+                            <small class="font-style">Price:</small>
+                            <small class="deco font-style">{{ product.price }} $ </small>
+                            <small class="font-style">{{ product.final_price }}</small>
+                        {% else %}
+                            <small class="font-style">Price: {{ product.price }} $</small>
+                        {% endif %}
+                        <div><a href="{{ product.get_absolute_url }}" class="btn btn-danger center">More Detail</a></div>
                     </div>
-                    {% if product.discount %}
-                        <small class="font-style">Price:</small>
-                        <small class="deco font-style">{{ product.price }} $ </small>
-                        <small class="font-style">{{ product.final_price }}</small>
-                    {% else %}
-                        <small class="font-style">Price: {{ product.price }} $</small>
-                    {% endif %}
-                    <div><a href="{{ product.get_absolute_url }}" class="btn btn-danger center">More Detail</a></div>
-                </div>
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
+        {% for product in all_products %}
+            <div class="card" style="width: 20rem;height: 30rem;">
+                <img class="card-img-top image" src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name | title }}</h5>
+                        <p class="card-text">{{ product.rate }} Ratings - {{ product.vote }} Reviews</p>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar"
+                                 style="width: {{ product.rating_percentage }}%"
+                                 aria-valuemin="0.0" aria-valuemax="5.0">
+                            </div>
+                        </div>
+                        {% if product.discount %}
+                            <small class="font-style">Price:</small>
+                            <small class="deco font-style">{{ product.price }} $ </small>
+                            <small class="font-style">{{ product.final_price }}</small>
+                        {% else %}
+                            <small class="font-style">Price: {{ product.price }} $</small>
+                        {% endif %}
+                        <div><a href="{{ product.get_absolute_url }}" class="btn btn-danger center">More Detail</a></div>
+                    </div>
+            </div>
+        {% endfor %}
     </div>
     <hr>
     <ul class="nav justify-content-center">

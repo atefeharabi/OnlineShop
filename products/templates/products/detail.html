@@ -42,7 +42,7 @@
                 </div>
             </div><br><br>
             <div>
-                <form action="" method="post">
+                <form action="{% url 'orders:cart-add' product.id %}" method="post">
                     {% csrf_token %}
                     {{ form }}
                     <input type="submit" class="btn btn-danger center" value="Add to cart">

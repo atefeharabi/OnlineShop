@@ -12,10 +12,10 @@ class Home(View):
         categories = Category.objects.filter(is_sub=False)
         if slug:
             category = Category.objects.get(slug=slug)
-            products = products.filter(category=category)
+            sub_products = products.filter(category=category)
             categories = Category.objects.filter(sub_category=category)
-        render(request, 'inc/navbar.html', {'categories': categories})
-        return render(request, self.template_name, {'products': products, 'categories': categories})
+            all_products = products.filter(category__in=categories)
+        return render(request, self.template_name, {'sub_products': sub_products, 'all_products': all_products, 'categories': categories})
 
 
 class ProductDetail(View):
