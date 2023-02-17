@@ -15,7 +15,9 @@ class Home(View):
             sub_products = products.filter(category=category)
             categories = Category.objects.filter(sub_category=category)
             all_products = products.filter(category__in=categories)
-        return render(request, self.template_name, {'sub_products': sub_products, 'all_products': all_products, 'categories': categories})
+            return render(request, self.template_name, {'products': sub_products, 'all_products': all_products,
+                                                        'categories': categories})
+        return render(request, self.template_name, {'products': products, 'categories': categories})
 
 
 class ProductDetail(View):
