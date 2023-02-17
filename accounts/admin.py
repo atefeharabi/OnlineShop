@@ -11,10 +11,11 @@ class UserAdmin(BaseUserAdmin):
 
     list_display = ('email', 'phone', 'first_name', 'last_name', 'is_admin')
     list_filter = ('is_admin',)
+    readonly_fields = ('last_login',)
 
     fieldsets = (
         ('Main', {'fields': ('email', 'phone', 'first_name', 'last_name', 'password', 'date_of_birth')}),
-        ('Permission', {'fields': ('is_active', 'is_admin', 'last_login')}),
+        ('Permission', {'fields': ('is_active', 'is_admin', 'is_superuser', 'last_login', 'groups', 'user_permissions')}),
     )
 
     add_fieldsets = (
@@ -24,7 +25,7 @@ class UserAdmin(BaseUserAdmin):
     )
     search_fields = ('email', 'phone', 'first_name', 'last_name')
     ordering = ('last_name', 'first_name', 'email')
-    filter_horizontal = ()
+    filter_horizontal = ('groups', 'user_permissions')
 
 
 class AddressAdmin(admin.ModelAdmin):
@@ -34,7 +35,7 @@ class AddressAdmin(admin.ModelAdmin):
     search_fields = ('customer',)
 
 
-admin.site.unregister(Group)
+# admin.site.unregister(Group)
 admin.site.register(User, UserAdmin)
 admin.site.register(Address, AddressAdmin)
 

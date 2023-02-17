@@ -1,10 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import UserManager
 from core.models import Country, State, City
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     """
         create User model for supporting customer users and admin users.
     """
@@ -30,11 +30,11 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        return True
-
-    def has_module_perms(self, app_label):
-        return True
+    # def has_perm(self, perm, obj=None):
+    #     return True
+    #
+    # def has_module_perms(self, app_label):
+    #     return True
 
     @property
     def is_staff(self):
