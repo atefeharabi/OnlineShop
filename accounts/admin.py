@@ -27,6 +27,14 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('last_name', 'first_name', 'email')
     filter_horizontal = ('groups', 'user_permissions')
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        is_superuser = request.user.is_superuser
+        if not is_superuser:
+            form.base_fields['is_superuser'].disabled = True
+
+        return form
+
 
 class AddressAdmin(admin.ModelAdmin):
     list_display = ('customer', 'country', 'state', 'city', 'district', 'postal_code')
