@@ -30,6 +30,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+    # def has_add_permission(self, request):
+    #     can_add = ['product_manager']
+    #     if request.user.groups.filter(name__in=can_add).exists() or self.is_superuser:
+    #         return True
+    #     else:
+    #         return False
+    #
+    # def has_change_permission(self, request):
+    #     can_add = ['product_manager']
+    #     if request.user.groups.filter(name__in=can_add).exists():
+    #         return True
+
     # def has_perm(self, perm, obj=None):
     #     return True
     #

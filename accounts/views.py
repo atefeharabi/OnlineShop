@@ -51,9 +51,8 @@ class VerifyCode(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            print(cd['code'])
             if cd['code'] == code_instance.code:
-                if code_instance.is_expired:
+                if code_instance.is_expired():
                     messages.error(request, 'code was expired.', 'danger')
                     return redirect('accounts:register')
                 else:
