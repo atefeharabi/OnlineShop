@@ -9,3 +9,4 @@ class CartAddForm(forms.Form):
         if self.quantity > stock:
             raise ValidationError('Quantity is over than stock')
         return True
+

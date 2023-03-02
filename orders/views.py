@@ -8,6 +8,9 @@ from django.contrib import messages
 
 
 class Cart(View):
+    """
+    View shopping cart
+    """
     template_name = 'orders/cart.html'
 
     def get(self, request):
@@ -16,9 +19,11 @@ class Cart(View):
 
 
 class CartAdd(View):
+    """
+    Adding the desired number of products to the cart
+    """
     def post(self, request, product_id):
         cart_session = CartSession(request)
-        # print(cart_session)
         product = get_object_or_404(Product, id=product_id)
         form = CartAddForm(request.POST)
         # if form.cleaned_data['quantity'] > product.stock:
@@ -27,3 +32,27 @@ class CartAdd(View):
         if form.is_valid():
             cart_session.add(product, form.cleaned_data['quantity'])
         return redirect('products:product-detail', slug=product.slug)
+
+
+class CartRemove(View):
+    """
+    Removing an item from shopping cart
+    """
+    def get(self, request, product_id):
+        cart_session = CartSession(request)
+        product = get_object_or_404(Product, id=product_id)
+        cart_session.remove(product)
+        return redirect('orders:cart')
+
+
+class CartUpdate(View):
+    """
+    Updating products quantity from shopping cart
+    """
+    def get(self, request, product_id):
+        cart_session = CartSession(request)
+        product = get_object_or_404(Product, id=product_id)
+        new_quantity = int(request.GET['q'])
+        cart_session.update(product, new_quantity)
+        return redirect('orders:cart')
+
