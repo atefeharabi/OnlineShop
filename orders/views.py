@@ -81,8 +81,8 @@ class OrderDetail(LoginRequiredMixin, View):
 class OrderPay(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = Order.objects.get(id=order_id)
-        print(order.PAYMENT[0][0])
         order.payment_status = order.PAYMENT[0][0]
+        order.save()
         messages.success(request, 'Payment was successful. Please refer to your user panel to view the status of your order',
                          'success')
         return redirect('products:home')
