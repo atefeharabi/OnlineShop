@@ -10,7 +10,7 @@
                         Profile
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item active" href="">
+                            <li><a class="dropdown-item active" href="{% url 'accounts:profile' %}">
                             {% if request.user.first_name %}
                                 {{ request.user.first_name }}
                             {% else %}

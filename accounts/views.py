@@ -1,5 +1,7 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
 from django.views import View
 from .forms import RegistrationForm, VerifyCodeForm, UserLoginForm
 from .models import User
@@ -96,3 +98,10 @@ class Logout(View):
         logout(request)
         messages.success(request, 'logged out successfully', 'success')
         return redirect('products:home')
+
+
+class Profile(View):
+    template_name = 'accounts/profile.html'
+
+    def get(self, request):
+        return render(request, self.template_name)

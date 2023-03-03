@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Register, VerifyCode, Login, Logout
+from .views import Register, VerifyCode, Login, Logout, Profile
 
 app_name = 'accounts'
 
@@ -8,4 +8,5 @@ urlpatterns = [
     path('verify/', VerifyCode.as_view(), name='verify_code'),
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
+    path('profile/', Profile.as_view(), name='profile'),
 ]
