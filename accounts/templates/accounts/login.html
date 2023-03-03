@@ -8,6 +8,8 @@
     <form action="" method="post" novalidate>
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Login">
+        <input class="btn btn-dark" type="submit" value="Login">
     </form>
+<br/>
+<div><a href="{% url 'accounts:register' %}" class="btn btn-danger">Registe</a></div>
 {% endblock content %}
