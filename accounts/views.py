@@ -83,6 +83,8 @@ class Login(View):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Logged in successfully', 'success')
+                if request.session['cart']:
+                    return redirect('orders:cart')
                 return redirect('products:home')
             else:
                 messages.error(request, 'Username or Password is wrong', 'danger')
