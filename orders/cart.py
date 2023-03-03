@@ -28,7 +28,7 @@ class CartSession:
         products = Product.objects.filter(id__in=product_ids)
         cart = self.cart.copy()
         for product in products:
-            cart[str(product.id)]['product'] = product.name
+            cart[str(product.id)]['product'] = product
             cart[str(product.id)]['id'] = product.id
 
         for item in cart.values():
@@ -80,3 +80,7 @@ class CartSession:
         :return:
         """
         return sum(Decimal(item['final_price']) * item['quantity'] for item in self.cart.values())
+
+    def clear(self):
+        del self.session[CART_SESSION_ID]
+        self.session.modified = True

@@ -5,6 +5,8 @@ from .cart import CartSession
 from products.models import Product
 from orders.forms import CartAddForm
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import OrderItem, Order
 
 
 class Cart(View):
@@ -56,3 +58,31 @@ class CartUpdate(View):
         cart_session.update(product, new_quantity)
         return redirect('orders:cart')
 
+
+class OrderCreate(LoginRequiredMixin, View):
+    def get(self, request):
+        cart_session = CartSession(request)
+        order = Order.objects.create(customer=request.user)
+        for item in cart_session:
+            OrderItem.objects.create(order=order, product=item['product'], price=item['final_price'],
+                                     quantity=item['quantity'])
+        cart_session.clear()
+        return redirect('orders:order-detail', order.id)
+
+
+class OrderDetail(LoginRequiredMixin, View):
+    template_name = 'orders/order.html'
+
+    def get(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id)
+        return render(request, self.template_name, {'order': order})
+
+
+class OrderPay(LoginRequiredMixin, View):
+    def get(self, request, order_id):
+        order = Order.objects.get(id=order_id)
+        print(order.PAYMENT[0][0])
+        order.payment_status = order.PAYMENT[0][0]
+        messages.success(request, 'Payment was successful. Please refer to your user panel to view the status of your order',
+                         'success')
+        return redirect('products:home')

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h3>Checkout</h3>
+    <p>Total price: {{ order.get_total_price }}</p>
+    <a class="btn btn-dark" href="{% url 'orders:order-pay' order.id %}">Click for pay</a>
+</div>
+{% endblock content %}

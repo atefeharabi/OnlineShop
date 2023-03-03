@@ -31,4 +31,7 @@
         </tr>
       </tbody>
     </table>
+{% if cart %}
+  <a href="{% url 'orders:order-create' %}" class="btn btn-dark">Checkout</a>
+{% endif %}
 {% endblock content %}
